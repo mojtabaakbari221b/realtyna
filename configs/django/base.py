@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 LOCAL_APPS = [
     'realtyna.users',
+    'realtyna.realstate',
 ]
 
 THIRD_PARTY_APPS = [
