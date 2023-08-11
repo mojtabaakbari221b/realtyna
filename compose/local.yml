@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+
+  realtyna_postgresql:
+    image:
+      postgres:14
+    volumes:
+      - realtyna_postgresql_volume:/var/lib/postgresql/data
+    restart: always
+    env_file: ../.envs/.env
+    networks:
+      - realtyna_postgres_network
+  
+  realtyna:
+    build:
+      context: ..
+      dockerfile: docker/realtyna/Dockerfile
+    entrypoint: ["/bin/sh", "/opt/realtyna/development.sh"]
+    volumes:
+      - realtyna_static_volume:/opt/realtyna/realtyna/static
+      - realtyna_media_volume:/opt/realtyna/realtyna/media
+    restart: on-failure
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - realtyna_postgres_network
+      - realtyna_redis_network
+    depends_on:
+      - realtyna_postgresql
+
+volumes:
+  realtyna_postgresql_volume:
+    driver: local
+    name: realtyna_postgresql_volume
+  realtyna_static_volume:
+    driver: local
+    name: realtyna_static_volume
+  realtyna_media_volume:
+    driver: local
+    name: realtyna_media_volume
+
+networks:
+  realtyna_postgres_network:
+    driver: bridge
+    name: realtyna_postgres_network
+  realtyna_redis_network:
+    driver: bridge
+    name: realtyna_redis_network

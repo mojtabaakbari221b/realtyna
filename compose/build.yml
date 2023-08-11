@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  realtyna_postgresql:
+    image:
+      postgres:14
+    volumes:
+      - build_realtyna_postgresql_volume:/var/lib/postgresql/data
+    restart: always
+    env_file: ../.envs/.env
+    networks:
+      - build_realtyna_postgres_network
+  
+  realtyna:
+    image: 
+      registry.realtyna.com/realtyna:${BUILD_ID}
+    tty: true
+    entrypoint: ["/bin/sh", "/opt/realtyna/build.sh"]
+    restart: on-failure
+    networks:
+      - build_realtyna_postgres_network
+      - build_realtyna_redis_network
+    depends_on:
+      - realtyna_postgresql
+
+volumes:
+  build_realtyna_postgresql_volume:
+    driver: local
+    name: build_realtyna_postgresql_volume
+
+networks:
+  build_realtyna_postgres_network:
+    driver: bridge
+    name: build_realtyna_postgres_network
+  build_realtyna_redis_network:
+    driver: bridge
+    name: build_realtyna_redis_network
