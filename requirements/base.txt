@@ -3,4 +3,5 @@ djangorestframework==3.14.0
 django-environ==0.10.0
 psycopg2-binary==2.9.1
 django-filter==23.2
-Markdown==3.4.4 
+Markdown==3.4.4
+drf-yasg==1.21.7
