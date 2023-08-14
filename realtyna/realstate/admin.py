@@ -3,17 +3,17 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.ListingOwner)
-class ReservationAdmin(admin.ModelAdmin):
+@admin.register(models.Hotel)
+class HotelAdmin(admin.ModelAdmin):
     list_display = (
-        "owner",
+        "hotelier",
     )
 
 
 @admin.register(models.Room)
-class ReservationAdmin(admin.ModelAdmin):
+class RoomAdmin(admin.ModelAdmin):
     list_display = (
-        "owned_by",
+        "hotel",
     )
 
 
