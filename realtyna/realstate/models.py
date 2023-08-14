@@ -21,6 +21,10 @@ class Room(BaseModel):
         on_delete=models.CASCADE,
     )
 
+    room_number = models.PositiveSmallIntegerField(
+        default=0,
+    )
+
     is_reserved = models.BooleanField(
         default=False,
     )
