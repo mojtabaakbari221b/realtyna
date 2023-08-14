@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
 
 from realtyna.utils.models import BaseModel
 
@@ -25,10 +26,11 @@ class Room(BaseModel):
         default=0,
     )
 
-    is_reserved = models.BooleanField(
-        default=False,
-    )
-
+    @property
+    def is_reserved(self):
+        return self.reservation_set.filter(
+            reserved_until__gt=now(),
+        ).exists()
 
 class Reservation(BaseModel):
     room = models.ForeignKey(
