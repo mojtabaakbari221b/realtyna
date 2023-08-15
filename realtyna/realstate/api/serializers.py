@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .. import models
-from ..selectors import non_reserved_room_for_specific_hotel_list
 
 
 class HotelSerializer(serializers.ModelSerializer):
