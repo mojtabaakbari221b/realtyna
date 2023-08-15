@@ -1,3 +1,5 @@
+from django.db.models import Prefetch
+from django.utils.timezone import now
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
@@ -8,6 +10,7 @@ from ..selectors import (
     specific_user_hotel_list,
     specific_hotel_room_list,
 )
+from ..models import Reservation
 from ..services import room_reservation_create
 from .serializers import (
     HotelSerializer,
@@ -41,6 +44,13 @@ class RoomViewset(ModelViewSet):
         return specific_hotel_room_list(
             user=self.request.user,
             hotel_id=self.kwargs.get("hotel_id"),
+        ).prefetch_related(
+            Prefetch(
+                'reservation_set',
+                queryset=Reservation.objects.filter(
+                    reserved_until__gt=now(),
+                ),
+            ),
         )
     
     def get_permissions(self):
