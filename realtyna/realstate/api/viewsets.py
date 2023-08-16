@@ -81,7 +81,7 @@ class RoomViewset(ModelViewSet):
     
     @action(
         methods=[
-            "get",
+            "post",
         ],
         detail=True,
     )
