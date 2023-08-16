@@ -28,6 +28,21 @@ class Room(BaseModel):
     @property
     def is_reserved(self):
         return self.reservation_set.exists()
+    
+    @property
+    def reserved_until(self):
+        if not self.is_reserved :
+            return "Not reserved"
+        
+        max_id = 0
+        max_object = None
+
+        for reservation in self.reservation_set.all():
+            if reservation.id > max_id :
+                max_id = reservation.id
+                max_object = reservation
+
+        return max_object.reserved_until
 
 
 class Reservation(BaseModel):

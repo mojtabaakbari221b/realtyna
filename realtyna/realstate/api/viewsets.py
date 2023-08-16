@@ -1,16 +1,14 @@
-from django.db.models import Prefetch
-from django.utils.timezone import now
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.renderers import TemplateHTMLRenderer
 
 from ..selectors import (
     specific_user_hotel_list,
-    specific_hotel_room_list,
+    specific_hotel_room_with_prefetched_reservation_list,
 )
-from ..models import Reservation
 from ..services import room_reservation_create
 from .serializers import (
     HotelSerializer,
@@ -32,6 +30,28 @@ class HotelViewset(ModelViewSet):
             user=self.request.user,
         )
     
+    @action(
+        methods=[
+            "get",
+        ],
+        renderer_classes = [
+            TemplateHTMLRenderer,
+        ],
+        detail=True,
+    )
+    def overview(self, request, pk):
+        hotel_rooms = specific_hotel_room_with_prefetched_latest_reservation_list(
+            user=request.user,
+            hotel_id=pk,
+        )
+        content = {
+            "hotel_rooms" : hotel_rooms,
+        }
+        return Response(
+            content,
+            template_name="realtyna/room_overview.html",
+        )
+    
 
 class RoomViewset(ModelViewSet):
     serializer_class = RoomSerializer
@@ -41,16 +61,9 @@ class RoomViewset(ModelViewSet):
     ]
 
     def get_queryset(self):
-        return specific_hotel_room_list(
+        return specific_hotel_room_with_prefetched_reservation_list(
             user=self.request.user,
             hotel_id=self.kwargs.get("hotel_id"),
-        ).prefetch_related(
-            Prefetch(
-                'reservation_set',
-                queryset=Reservation.objects.filter(
-                    reserved_until__gt=now(),
-                ),
-            ),
         )
     
     def get_permissions(self):

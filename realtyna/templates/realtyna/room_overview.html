@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<title>realtyna - hotel overview</title>
+</head>
+
+<body>
+
+<div class="container mt-5 text-center">
+  <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Room Number</th>
+          <th scope="col">Reserve Status</th>
+          <th scope="col">Reserved Until</th>
+        </tr>
+      </thead>
+
+      {% for room in hotel_rooms %}
+
+          <tbody>
+          <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{room.room_number}}</td>
+              <td>{{room.is_reserved}}</td>
+              <td>{{room.reserved_until}}</td>
+          </tr>
+          </tbody>
+
+      {% endfor %}
+  </table>
+</div>
+
+</body>
+
+</html> 
