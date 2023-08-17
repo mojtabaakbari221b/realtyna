@@ -6,6 +6,7 @@ from . import models
 @admin.register(models.Hotel)
 class HotelAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "hotelier",
     )
 
@@ -13,6 +14,7 @@ class HotelAdmin(admin.ModelAdmin):
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "hotel",
     )
 
@@ -20,6 +22,7 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(models.Reservation)
 class ReservationAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "room",
         "booked_by",
         "reserved_until",
