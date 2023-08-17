@@ -1,5 +1,6 @@
+from datetime import datetime
 from django.contrib.auth import get_user_model
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.utils.timezone import now
 
 from .models import Reservation
@@ -39,4 +40,15 @@ def specific_hotel_room_with_prefetched_reservation_list(*, user: User, hotel_id
                 reserved_until__gt=now(),
             ),
         ),
+    )
+
+
+def specific_hotel_available_room_in_preferred_time_list(
+    *,
+    hotel_id: int,
+    preferred_time: datetime,
+):
+    return models.Room.objects.filter(
+        Q(reservation__reserved_until__lt=preferred_time) | Q(reservation=None),
+        hotel_id=hotel_id,
     )

@@ -52,3 +52,8 @@ class ReservationSerializer(serializers.ModelSerializer):
             "booked_by",
             "reserved_until",
         ]
+
+
+class RoomAvailabilitySerializer(serializers.Serializer):
+    requested_room_number = serializers.IntegerField()
+    preferred_time = serializers.DateTimeField()
