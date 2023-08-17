@@ -3,7 +3,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import TemplateHTMLRenderer
-from django.utils.timezone import now
 
 from ..selectors import (
     specific_user_hotel_list,
