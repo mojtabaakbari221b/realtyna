@@ -1,9 +1,6 @@
-# REALTYNA
+# REAL STATE
 
 ## About The Project
-
-We would like to send you our Python and Django tech challenge. You will have one week to prepare it and send the results to us. Please consider you should not work more than 8 hours on this technical 
-challenge.
 
 Description:
 As a listing owner, I want a system for making and tracking reservations that can be handled by third-party services.
